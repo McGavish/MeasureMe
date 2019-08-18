@@ -1,0 +1,126 @@
+PS C:\Users\McGavish\Documents\GitHub\MeasureMe\MeasureMe\src> yarn create react-app measureme.react --typescript
+yarn create v1.17.3
+[1/4] Resolving packages...
+[2/4] Fetching packages...
+[3/4] Linking dependencies...
+[4/4] Building fresh packages...
+
+success Installed "create-react-app@3.1.1" with binaries:
+      - create-react-app
+
+Creating a new React app in C:\Users\McGavish\Documents\GitHub\MeasureMe\MeasureMe\src\measureme.react.
+
+Installing packages. This might take a couple of minutes.
+Installing react, react-dom, and react-scripts...
+
+yarn add v1.17.3
+[1/4] Resolving packages...
+[2/4] Fetching packages...
+info fsevents@1.2.9: The platform "win32" is incompatible with this module.
+info "fsevents@1.2.9" is an optional dependency and failed compatibility check. Excluding it from installation.
+info fsevents@2.0.7: The platform "win32" is incompatible with this module.
+info "fsevents@2.0.7" is an optional dependency and failed compatibility check. Excluding it from installation.
+[3/4] Linking dependencies...
+warning "react-scripts > @typescript-eslint/eslint-plugin@1.13.0" has incorrect peer dependency "eslint@^5.0.0".
+warning "react-scripts > @typescript-eslint/parser@1.13.0" has incorrect peer dependency "eslint@^5.0.0".
+[4/4] Building fresh packages...
+success Saved lockfile.
+success Saved 15 new dependencies.
+info Direct dependencies
+├─ @types/jest@24.0.17
+├─ @types/node@12.7.2
+├─ @types/react-dom@16.8.5
+├─ @types/react@16.9.2
+├─ react-dom@16.9.0
+├─ react-scripts@3.1.1
+├─ react@16.9.0
+└─ typescript@3.5.3
+info All dependencies
+├─ @types/jest-diff@20.0.1
+├─ @types/jest@24.0.17
+├─ @types/node@12.7.2
+├─ @types/prop-types@15.7.1
+├─ @types/react-dom@16.8.5
+├─ @types/react@16.9.2
+├─ csstype@2.6.6
+├─ eslint-config-react-app@5.0.1
+├─ react-dev-utils@9.0.3
+├─ react-dom@16.9.0
+├─ react-error-overlay@6.0.1
+├─ react-scripts@3.1.1
+├─ react@16.9.0
+├─ scheduler@0.15.0
+└─ typescript@3.5.3
+Done in 27.61s.
+We detected TypeScript in your project (src\App.test.tsx) and created a tsconfig.json file for you.
+
+Your tsconfig.json has been populated with default values.
+
+
+Success! Created measureme.react at C:\Users\McGavish\Documents\GitHub\MeasureMe\MeasureMe\src\measureme.react
+Inside that directory, you can run several commands:
+
+  yarn start
+    Starts the development server.
+
+  yarn build
+    Bundles the app into static files for production.
+
+  yarn test
+    Starts the test runner.
+
+  yarn eject
+    Removes this tool and copies build dependencies, configuration files
+    and scripts into the app directory. If you do this, you can’t go back!
+
+We suggest that you begin by typing:
+
+  cd measureme.react
+  yarn start
+
+Happy hacking!
+Done in 46.00s.
+PS C:\Users\McGavish\Documents\GitHub\MeasureMe\MeasureMe\src> yarn add react-konva konva --save
+yarn add v1.17.3
+info No lockfile found.
+[1/4] Resolving packages...
+[2/4] Fetching packages...
+[3/4] Linking dependencies...
+warning "react-konva > react-reconciler@0.21.0" has unmet peer dependency "react@^16.0.0".
+warning " > react-konva@16.9.0-0" has unmet peer dependency "react@16.9.x".
+warning " > react-konva@16.9.0-0" has unmet peer dependency "react-dom@16.9.x".
+[4/4] Building fresh packages...
+success Saved lockfile.
+success Saved 7 new dependencies.
+info Direct dependencies
+├─ konva@4.0.5
+└─ react-konva@16.9.0-0
+info All dependencies
+├─ js-tokens@4.0.0
+├─ konva@4.0.5
+├─ loose-envify@1.4.0
+├─ prop-types@15.7.2
+├─ react-is@16.9.0
+├─ react-konva@16.9.0-0
+└─ react-reconciler@0.21.0
+Done in 3.72s.
+PS C:\Users\McGavish\Documents\GitHub\MeasureMe\MeasureMe\src> yarn add mobx
+yarn add v1.17.3
+warning package.json: No license field
+warning No license field
+[1/4] Resolving packages...
+[2/4] Fetching packages...
+[3/4] Linking dependencies...
+warning " > react-konva@16.9.0-0" has unmet peer dependency "react@16.9.x".
+warning " > react-konva@16.9.0-0" has unmet peer dependency "react-dom@16.9.x".
+warning "react-konva > react-reconciler@0.21.0" has unmet peer dependency "react@^16.0.0".
+[4/4] Building fresh packages...
+success Saved lockfile.
+warning No license field
+success Saved 1 new dependency.
+info Direct dependencies
+└─ mobx@5.13.0
+info All dependencies
+└─ mobx@5.13.0
+Done in 1.91s.
+PS C:\Users\McGavish\Documents\GitHub\MeasureMe\MeasureMe\src>
