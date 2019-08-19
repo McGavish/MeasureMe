@@ -38,8 +38,9 @@ export default class App extends Component<{ model: CanvasModel }>{
               const newScale = e.evt.deltaY > 0 ? oldScale / scaleBy : oldScale * scaleBy;
 
               this.props.model.zoom = newScale
-            }
-            }>
+            }            }
+
+            >
 
             <Layer>
 
@@ -73,6 +74,13 @@ export default class App extends Component<{ model: CanvasModel }>{
                   }
 
                 }}
+                onMouseMove={n =>{
+                  const stage = n.target.getStage();
+                  if (stage){
+                    const pos = stage.getPointerPosition();
+                    this.props.model.image.setMousePosition(1 / model.zoom * pos.x - image.x, 1 / model.zoom * pos.y - image.y)
+                  }
+                }}
               >
               </Image>
             </Layer>
@@ -99,7 +107,11 @@ export default class App extends Component<{ model: CanvasModel }>{
             <h2>Image Coordinate:</h2>
             <h2>x = {this.props.model.image.x}</h2>
             <h2>y = {this.props.model.image.y}</h2>
-
+          </div>
+          <div>
+            <h2>Mouse Coordinate:</h2>
+            <h2>x = {this.props.model.image.mouse.x}</h2>
+            <h2>y = {this.props.model.image.mouse.y}</h2>
           </div>
         </div>
       </div>

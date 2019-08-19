@@ -4,6 +4,7 @@ import { ImageModel } from './ImageModel';
 export class CanvasModel {
     @observable.shallow
     image!: ImageModel;
+
     @observable
     _zoom = 1;
     get zoom() {
@@ -26,6 +27,7 @@ export class CanvasModel {
         };
         fr.readAsDataURL(file);
     }
+
     constructor() {
         this.setImage(data.img);
     }
