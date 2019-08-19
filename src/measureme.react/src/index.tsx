@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { CanvasModel } from './Models/XYZ';
+import { CanvasModel } from "./Models/CanvasModel";
 
 const model = new CanvasModel();
 

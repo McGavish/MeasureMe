@@ -5,7 +5,8 @@ import { Stage, Layer, Rect, Text, Image, Circle } from 'react-konva';
 import Konva from 'konva';
 import { Star } from 'react-konva';
 import { observer } from 'mobx-react'
-import { CanvasModel, ImageModel } from './Models/XYZ';
+import { CanvasModel } from "./Models/CanvasModel";
+import { ImageModel } from "./Models/ImageModel";
 
 @observer
 export default class App extends Component<{ model: CanvasModel }>{
@@ -68,14 +69,12 @@ export default class App extends Component<{ model: CanvasModel }>{
                   const stage = x.target.getStage();
                   if (stage) {
                     const pos = stage.getPointerPosition();
-                    this.props.model.image.setPoint(1 /model.zoom * pos.x - image.x, 1 /model.zoom * pos.y - image.y) // wywołanie metody setPoint
+                    this.props.model.image.setPoint(1 / model.zoom * pos.x - image.x, 1 / model.zoom * pos.y - image.y) // wywołanie metody setPoint
                   }
 
                 }}
               >
-
               </Image>
-
             </Layer>
             <Layer >
               {this.props.model.image.measuredPoints.map(x => <Circle
