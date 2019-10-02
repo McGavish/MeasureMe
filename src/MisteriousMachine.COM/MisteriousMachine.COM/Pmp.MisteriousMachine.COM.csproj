@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Ports" Version="4.6.0" />
+    <PackageReference Include="System.Management" Version="4.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Pmp.Camera.Lib\Pmp.Camera.Lib.csproj" />
+  </ItemGroup>
+
+</Project>

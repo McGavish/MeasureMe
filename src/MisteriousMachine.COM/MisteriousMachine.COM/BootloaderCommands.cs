@@ -29,24 +29,24 @@ namespace MisteriousMachine.COM
         [DataMember(Order = 10)]
         public byte ReadUnprotect { get; set; }
 
-        public bool EnterBootloaderMode(UcApi api)
+        public bool EnterBootloaderMode(UcClient api)
         {
             api.InvokeWithoutConfirmation(new[] { (byte)0x7f });
             var @byte = api.ReadByte();
-            if (@byte == UcApi.ACK)
+            if (@byte == UcClient.ACK)
             {
                 return true;
             }
             return false;
         }
 
-        public void InvokeSymetrical(UcApi api, byte command)
+        public void InvokeSymetrical(UcClient api, byte command)
         {
             var xored = (byte)(command ^ 0xff);
             api.InvokeWithoutConfirmation(new[] { (byte)command, (byte)xored });
         }
 
-        public bool Write(UcApi api, byte[] address, byte[] content)
+        public bool Write(UcClient api, byte[] address, byte[] content)
         {
             this.InvokeSymetrical(api, this.WriteMemory);
             var initialAkc = api.ReadByte();
@@ -81,11 +81,11 @@ namespace MisteriousMachine.COM
             return false;
         }
 
-        public bool GetCommands(UcApi api)
+        public bool GetCommands(UcClient api)
         {
             this.InvokeSymetrical(api, 0x00);
             var akc = api.ReadByte();
-            if (akc == UcApi.NACK)
+            if (akc == UcClient.NACK)
             {
                 return false;
             }
@@ -111,7 +111,7 @@ namespace MisteriousMachine.COM
                     prop.x.SetValue(this, commandByte);
                 }
                 var enfOfFrame = api.ReadByte();
-                if (enfOfFrame == UcApi.ACK)
+                if (enfOfFrame == UcClient.ACK)
                 {
                     return true;
                 }

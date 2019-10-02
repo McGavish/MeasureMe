@@ -6,12 +6,12 @@ namespace MisteriousMachine.COM
 {
     public class BootLoaderHost
     {
-        public BootLoaderHost(UcApi api)
+        public BootLoaderHost(UcClient api)
         {
             this.Api = api;
         }
 
-        public UcApi Api { get; }
+        public UcClient Api { get; }
 
         public async Task OpenToWrite()
         {

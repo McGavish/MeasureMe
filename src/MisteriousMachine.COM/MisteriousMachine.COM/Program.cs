@@ -8,93 +8,19 @@ using System.Threading.Tasks;
 
 namespace MisteriousMachine.COM
 {
+    public class BtManager
+    {
+       
+    }
+
     class Program
     {
-        static public Dictionary<string, string> GetBtNameToPort()
-        {
-            var bts = new List<ManagementObject>();
-            using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity where Caption like ""UC#%"""))
-            {
-                using (var collection = searcher.Get())
-                {
-                    bts = collection.Cast<ManagementObject>().ToList();
-                }
-            }
-
-            var ports = new List<ManagementObject>();
-            using (var searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_PnPEntity where Caption like ""Standard Serial over Bluetooth link%"""))
-            {
-                using (var collection = searcher.Get())
-                {
-                    ports = collection.Cast<ManagementObject>().ToList();
-                }
-            }
-            var endpointIdKEy = "AssociationEndpointID";
-            var matchingDictionary = new Dictionary<string, string>();
-
-            foreach (var bt in bts)
-            {
-                var matchString = bt.Path.RelativePath.Split("_").Last();
-                matchString = matchString.Substring(0, matchString.Length - 1);
-                var matchedPort = ports.FirstOrDefault(x => x.Path.RelativePath.Split("&").LastOrDefault()?.Split("_").FirstOrDefault() == matchString);
-                var friendlyName = matchedPort?.GetPropertyValue("Caption") as string;
-                var com = friendlyName.Split(new[] { "(", ")" }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
-                matchingDictionary[bt.GetPropertyValue("Caption") as string] = com;
-            }
-
-            return matchingDictionary;
-        }
-
-        static bool CheckAvailibility(string name)
-        {
-            var btToPort = GetBtNameToPort();
-            if (btToPort.TryGetValue(name, out var val))
-            {
-                try
-                {
-                    using (var api = new UcApi(val))
-                    {
-
-                        api.Invoke(x => x.ReturnSpeed(1));
-                        var speed = api.Serial.ReadLine();
-                        return true;
-                    }
-                }
-                catch (Exception)
-                {
-                    return false;
-
-                }
-            }
-            return false;
-        }
+        
 
         static async Task Main(string[] args)
         {
-            Console.WriteLine("Discovering bts.");
-            var bts = GetBtNameToPort();
-            var active = default(string);
-            foreach (var item in bts)
-            {
-                Console.WriteLine($"Found {item.Key} {item.Value}");
-                var status = CheckAvailibility(item.Key);
-                if (status)
-                {
-                    active = item.Key;
-                }
-                Console.WriteLine($"Status: {status}");
-                Console.WriteLine();
-            }
-
-            if (active == null)
-            {
-                Console.WriteLine("No active device found.");
-                return;
-            }
-
-            Console.WriteLine($"Using {active}");
-            var com = bts[active];
-            using (var api = new UcApi(com))
+            var com  = UcClient.GetFirstConnected();
+            using (var api = new UcClient(com))
             {
                 var command = new Commands();
                 Console.WriteLine("Commands:");

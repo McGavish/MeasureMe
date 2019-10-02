@@ -1,19 +1,35 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <LangVersion>8</LangVersion>
+
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
-    <PackageReference Include="xunit" Version="2.4.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+    <Compile Remove="test.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Pmp.Camera.WebApp\Pmp.Camera.WebApp.csproj" />
+    <Content Include="test.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0" />
+    <PackageReference Include="System.Threading.Tasks.Dataflow" Version="4.10.0" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pmp.Camera.Lib\Pmp.Camera.Lib.csproj" />
   </ItemGroup>
 
 </Project>
