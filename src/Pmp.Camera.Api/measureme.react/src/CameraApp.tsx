@@ -57,7 +57,7 @@ export class CameraApp extends InjectedComponent<AppProps> {
                                 <Button  {...createPropsFor(7)} />
                             </Col>
                             <Col span={14} >
-                                <div className={'container'} style={({backgroundImage: "url(http://localhost:3005/api/camera/stream)"})}/>
+                                <div className={'container'} style={({ backgroundImage: "url(http://localhost:3005/api/camera/stream)" })} />
                             </Col>
                             <Col span={1}>
                                 <Button {...createPropsFor(3)} />
@@ -77,11 +77,22 @@ export class CameraApp extends InjectedComponent<AppProps> {
                     </Col>
                     <Col span={4}>
                         <Row gutter={16} align="middle" justify="center">
-                        <Button  shape="circle" icon="" type={'default'} onClick={((x) => this.injectedProps.machineClient.record())} />
-                        <TextArea rows={8} placeholder="type command"  onPressEnter={x => this.injectedProps.machineClient.execute(x.currentTarget.value)} />
-                        <span>
-                            {this.injectedProps.machineClient.result}
-                        </span>
+                            <Button shape="circle" icon="" type={'default'} onClick={((x) => this.injectedProps.machineClient.record())} />
+                            <TextArea rows={8} placeholder="type command" onPressEnter={x => this.injectedProps.machineClient.execute(x.currentTarget.value)} />
+                            <span>
+                                {this.injectedProps.machineClient.result}
+                            </span>
+                        </Row>
+                        <Row gutter={16} align="middle" justify="center">
+                            <Button onClick={((x) => this.injectedProps.machineClient.execute("switch_cammode.cgi?mode=shutter"))} >Shutter</Button>
+                            <Button onClick={((x) => this.injectedProps.machineClient.execute("switch_cammode.cgi?mode=play"))} >Play</Button>
+                            <Button onClick={((x) => this.injectedProps.machineClient.execute("get_camprop.cgi?com=desc&propname=focalvalue"))} >Focal Value</Button>
+                        </Row>
+                        <Row>
+                            <Button.Group size={'large'}>
+                                <Button type="primary" icon="camera" onClick={((x) => this.injectedProps.machineClient.execute("exec_shutter.cgi?com=1st2ndpush"))} >Shot</Button>
+                                <Button type="dashed" onClick={((x) => this.injectedProps.machineClient.execute("exec_shutter.cgi?com=2nd1strelease"))} >Release</Button>
+                            </Button.Group>
                         </Row>
                     </Col>
                 </Row>

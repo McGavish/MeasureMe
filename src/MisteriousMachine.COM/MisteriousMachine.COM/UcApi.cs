@@ -177,9 +177,8 @@ namespace MisteriousMachine.COM
                 {
                     using (var api = new UcClient(val))
                     {
-
+                        api.TryStartAsync().Wait();
                         api.Invoke(x => x.ReturnSpeed(1));
-                        var speed = api.Serial.ReadLine();
                         return true;
                     }
                 }

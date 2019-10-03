@@ -19,7 +19,7 @@ export class MachineClient {
         });
 
         this.switches = observable.map();
-     
+
         this.client.start().then(x => console.log('connected'));
 
         this.client.on('setCameraState', this.setCallback);
@@ -38,9 +38,16 @@ export class MachineClient {
     }
 
     @action
-    public async execute(command: string){
+    public async execute(command: string) {
         debugger;
         const result = await this.client.invoke('execute', command);
+        this.result = result;
+    }
+
+    @action
+    public async executePost(command: string, body: string) {
+        debugger;
+        const result = await this.client.invoke('executePost', command, body);
         this.result = result;
     }
 

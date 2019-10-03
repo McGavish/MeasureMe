@@ -24,6 +24,8 @@ namespace Pmp.Camera.Api.Controllers
             this.ct = ct;
         }
 
+        double frameTime = 1000 / 30;
+
         public async Task ExecuteResultAsync(ActionContext context)
         {
             var writer = context.HttpContext.Response.Body;
@@ -34,9 +36,10 @@ namespace Pmp.Camera.Api.Controllers
             while (!this.ct.IsCancellationRequested)
             {
                 var currentFrame = this.Camera.CurrentFrame;
-                if (sw.ElapsedMilliseconds > 20 && currentFrame != frame)
+                var time = (int)this.frameTime - sw.ElapsedMilliseconds;
+                if (time <= 1 && currentFrame != frame)
                 {
-                    var header = $"--{this.Boundary}\r\nContent-Type: image/jpeg\r\nContent-Length: {frame.Data.Length}\r\n\r\n";
+                    var header = $"--{this.Boundary}\r\nContent-Type: image/jpeg\r\nContent-Length: {currentFrame.Data.Length}\r\n\r\n";
                     var headerData = Encoding.UTF8.GetBytes(header);
                     await writer.WriteAsync(headerData, 0, headerData.Length);
                     await writer.WriteAsync(currentFrame.Data);
@@ -48,7 +51,14 @@ namespace Pmp.Camera.Api.Controllers
                 }
                 else
                 {
-                    await Task.Yield();
+                    if(time < 1)
+                    {
+                        await Task.Delay(1);
+                    }
+                    else
+                    {
+                        await Task.Delay(TimeSpan.FromMilliseconds(time));
+                    }
                 }
             }
         }
