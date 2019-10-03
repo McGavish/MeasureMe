@@ -47,7 +47,7 @@ namespace Pmp.Camera.Tests
                             if (l1.Cmd2 != null)
                             {
                                 var cmd2 = l1.Cmd2;
-                                if(cmd2.Param2 != null && cmd2.Param2.Any())
+                                if (cmd2.Param2 != null && cmd2.Param2.Any())
                                 {
                                     foreach (var i in cmd2.Param2)
                                     {
@@ -210,16 +210,15 @@ namespace Pmp.Camera.Tests
         [Fact]
         public async Task Test()
         {
-            var camera = await OiCameraBootstraper.Connect();
-            var endpoint = await camera.Record();
-            using (var receiver = new OiUdpStreamBlock(camera)) //new FakePacketProducer(new DirectoryInfo(@"D:\datas\78fa3913-660f-469b-8957-9adb4e6a6226"));
-            {
-                await receiver.TryStart();
-                while (true)
-                {
-                    await receiver.Continue();
-                }
-            }
+           
+            var item = CommandsResponseReader.Read();
+            var f = item.Cgi.First(x => x.Name == "get_camprop");
+            var desc = f.Http_method.Cmd1.Param1.First(x => x.Name == "desc");
+      
+            var parsedDescs = CommandsResponseReader.GetDescList();
+
+            var objs = OiCamera.ExtractButtondescription(parsedDescs);
+            throw new Exception(Newtonsoft.Json.JsonConvert.SerializeObject(objs));
         }
 
         [Fact]

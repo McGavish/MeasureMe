@@ -77,7 +77,7 @@ namespace Pmp.Camera.WebApi.Hubs
         public async Task<string> Execute(string command)
         {
             var result = await this.Camera.Exec(command);
-            return result;
+            return CommandsResponseReader.TryGetValue(result);
         }
 
         public async Task<string> ExecutePost(string command, string body)
@@ -89,6 +89,11 @@ namespace Pmp.Camera.WebApi.Hubs
         public async Task StartRecord()
         {
             var result = await this.Camera.Record();
+        }
+
+        public async Task<ButtonDescription[]> ListSettings()
+        {
+            return await this.Camera.GetDefinition();
         }
 
         public async Task SetLed(int port, bool value)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -11,10 +12,6 @@ using Pmp.Camera.Lib.InternalApiModels;
 
 namespace Pmp.Camera.Lib
 {
-    public class LastFrameHander
-    {
-        public byte[] LastFrame { get; set; }
-    }
 
     public class OiCamera : IDisposable, INotifyPropertyChanged
     {
@@ -250,6 +247,63 @@ namespace Pmp.Camera.Lib
             else
             {
                 return r1.ReasonPhrase;
+            }
+        }
+
+        public async Task<string> ExecPost(string command, string post)
+        {
+            var r1 = await this.Client.PostAsync(command, new StringContent("<?xml version=\"1.0\"?><set><value>" + post + "</value></set>"));
+            if (r1.IsSuccessStatusCode)
+            {
+                return await r1.Content.ReadAsStringAsync();
+            }
+            else
+            {
+                return r1.ReasonPhrase;
+            }
+        }
+
+        public async Task<ButtonDescription[]> GetDefinition()
+        {
+            var result = new ButtonDescription[] { };
+
+            var item = CommandsResponseReader.Read();
+            var f = item.Cgi.First(x => x.Name == "get_camprop");
+            var desc = f.Http_method.Cmd1.Param1.First(x => x.Name == "desc");
+
+            //var d = new Dictionary<string, string>();
+            //foreach (var x in desc.Cmd2.Param2)
+            //{
+            //    var response = await this.Exec("get_camprop.cgi?com=desc&param=" + x.Name);
+            //    d[x.Name] = response;
+            //}
+            //var descList = d["desclist"];
+            //var parsedDescs = CommandsResponseReader.GetDescList(declist);
+            var parsedDescs = CommandsResponseReader.GetDescList();
+            result = ExtractButtondescription(parsedDescs).ToArray();
+            return result;
+        }
+
+        public static IEnumerable<ButtonDescription> ExtractButtondescription(CommandsResponseReader.Desclist parsedDescs)
+        {
+            var s = LambdaHelper._(((string method, string name) => $"{method}_{name}.cgi?com={method}&propname={name}"));
+            foreach (var parsed in parsedDescs.Desc)
+            {
+                var bd = new ButtonDescription();
+                bd.Name = parsed.Propname;
+                if (parsed.Enum != null && parsed.Enum.Split(" ", StringSplitOptions.RemoveEmptyEntries).ToArray() is var entries && entries.Any())
+                {
+                    bd.PossibleValues = entries;
+                }
+                if (parsed.Attribute.Contains("set"))
+                {
+                    bd.SetCommand = s("set", parsed.Propname);
+                }
+                if (parsed.Attribute.Contains("get"))
+                {
+                    bd.GetCommand = s("get", parsed.Propname);
+                }
+                yield return bd;
             }
         }
 

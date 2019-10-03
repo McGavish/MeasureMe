@@ -1,12 +1,13 @@
 import * as React from 'react'
-import { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import { InjectedComponent } from './InjectedComponent';
 import { AppProps } from './App';
-import { Row, Col, Card, Icon, Button, Input } from 'antd';
+import { Row, Col, Card, Icon, Button, Select } from 'antd';
 import { ButtonProps } from 'antd/lib/button';
 import './CameraApp.css';
 import TextArea from 'antd/lib/input/TextArea';
+import { SettingGrid } from './SettingGrid';
+
 
 @inject('canvas', 'routing', 'machineClient')
 @observer
@@ -75,20 +76,18 @@ export class CameraApp extends InjectedComponent<AppProps> {
                             </Col>
                         </Row>
                     </Col>
-                    <Col span={4}>
+                    <Col span={8}>
                         <Row gutter={16} align="middle" justify="center">
-                            <Button shape="circle" icon="" type={'default'} onClick={((x) => this.injectedProps.machineClient.record())} />
-                            <TextArea rows={8} placeholder="type command" onPressEnter={x => this.injectedProps.machineClient.execute(x.currentTarget.value)} />
+                            <TextArea rows={2} placeholder="type command" onPressEnter={x => this.injectedProps.machineClient.execute(x.currentTarget.value)} />
                             <span>
                                 {this.injectedProps.machineClient.result}
                             </span>
                         </Row>
                         <Row gutter={16} align="middle" justify="center">
+                            <Button type={'danger'} onClick={((x) => this.injectedProps.machineClient.record())}>Record</Button>
                             <Button onClick={((x) => this.injectedProps.machineClient.execute("switch_cammode.cgi?mode=shutter"))} >Shutter</Button>
                             <Button onClick={((x) => this.injectedProps.machineClient.execute("switch_cammode.cgi?mode=play"))} >Play</Button>
                             <Button onClick={((x) => this.injectedProps.machineClient.execute("get_camprop.cgi?com=desc&propname=focalvalue"))} >Focal Value</Button>
-                        </Row>
-                        <Row>
                             <Button.Group size={'large'}>
                                 <Button type="primary" icon="camera" onClick={((x) => this.injectedProps.machineClient.execute("exec_shutter.cgi?com=1st2ndpush"))} >Shot</Button>
                                 <Button type="dashed" onClick={((x) => this.injectedProps.machineClient.execute("exec_shutter.cgi?com=2nd1strelease"))} >Release</Button>
@@ -96,7 +95,7 @@ export class CameraApp extends InjectedComponent<AppProps> {
                         </Row>
                     </Col>
                 </Row>
-
+                <SettingGrid machineClient={this.injectedProps.machineClient} />
             </React.Fragment >
         );
     }
