@@ -286,7 +286,7 @@ namespace Pmp.Camera.Lib
 
         public static IEnumerable<ButtonDescription> ExtractButtondescription(CommandsResponseReader.Desclist parsedDescs)
         {
-            var s = LambdaHelper._(((string method, string name) => $"{method}_{name}.cgi?com={method}&propname={name}"));
+            var s = LambdaHelper._(((string method, string name) => $"{method}_camprop.cgi?com={method}&propname={name}"));
             foreach (var parsed in parsedDescs.Desc)
             {
                 var bd = new ButtonDescription();
