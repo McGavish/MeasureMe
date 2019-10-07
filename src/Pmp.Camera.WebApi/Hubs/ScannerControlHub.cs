@@ -82,7 +82,7 @@ namespace Pmp.Camera.WebApi.Hubs
 
         public async Task<string> ExecutePost(string command, string body)
         {
-            var result = await this.Camera.Exec(command);
+            var result = await this.Camera.ExecPost(command, body);
             return result;
         }
 
