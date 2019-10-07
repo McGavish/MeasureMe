@@ -17,12 +17,12 @@ export class SettingBoard extends Component<{
         const children = [<span>{item.name} {item.value}</span>];
         if (this.props.item.setCommand != null) {
             if (this.props.item.isEnum) {
-                children.push(<Select style={{ width: 100 }} value={item.value} onChange={(x: string) => machineClient.executePost(item.setCommand, x)}>
+                children.push(<Select style={{ width: 100 }} value={item.value} onChange={(x: string) => item.post(x)}>
                     {item.possibleValues.map(x => <Option value={x} key={x}>{x}</Option>)}
                 </Select>);
             }
             else {
-                children.push(<Input value={item.value} placeholder="value..." onPressEnter={(x) => machineClient.executePost(item.setCommand, x.currentTarget.value)} />);
+                children.push(<Input value={item.value} placeholder="value..." onPressEnter={(x) => item.post(x.currentTarget.value)} />);
             }
         }
         return (<Card>

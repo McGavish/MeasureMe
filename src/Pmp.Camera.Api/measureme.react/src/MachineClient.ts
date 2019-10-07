@@ -42,6 +42,7 @@ export class MachineClient {
                 si.value = x.value;
                 si.name = x.name;
                 si.possibleValues = x.possibleValues;
+                si.client = this;
                 return si;
             });
 
@@ -77,9 +78,7 @@ export class MachineClient {
 
     @action
     public async executePost(command: string, body: string) {
-        debugger;
         const result = await this.client.invoke('executePost', command, body);
-        await this.refreshItems();
         this.result = result;
     }
 
