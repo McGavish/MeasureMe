@@ -7,6 +7,7 @@ namespace MisteriousMachine.COM
 {
     public interface IUcScannerClient: IDisposable, INotifyPropertyChanged
     {
+        Commands Commands { get; }
         string ComPort { get; }
         bool IsConnected { get; }
         SerialPort Serial { get; }

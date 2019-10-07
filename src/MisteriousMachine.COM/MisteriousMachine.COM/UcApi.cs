@@ -21,6 +21,8 @@ namespace MisteriousMachine.COM
         public string ComPort { get; }
         public SerialPort Serial { get; }
 
+        public Commands Commands { get; set; }
+
         protected virtual SerialPort Create(string comPort)
         {
             var sp = new SerialPort(comPort);
@@ -57,6 +59,7 @@ namespace MisteriousMachine.COM
 
         public UcClient(SerialPortDescriptor portDescriptor) : this(portDescriptor.Port)
         {
+            this.Commands = new Commands();
 
         }
 

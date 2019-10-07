@@ -96,6 +96,11 @@ namespace Pmp.Camera.WebApi.Hubs
             return await this.Camera.GetDefinition();
         }
 
+        public async Task<ButtonWithParametersDescription[]> ListUcSettings()
+        {
+            this.MachineController.Commands.
+
+        }
         public async Task SetLed(int port, bool value)
         {
             var result = this.MachineController.Invoke(x => x.Set(port, value));

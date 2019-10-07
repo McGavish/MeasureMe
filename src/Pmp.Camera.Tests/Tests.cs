@@ -15,8 +15,6 @@ using Xunit;
 
 namespace Pmp.Camera.Tests
 {
-
-
     public class CameraTest
     {
         [Fact]
