@@ -67,6 +67,7 @@ export class MachineClient {
 
     public async record() {
         await this.client.invoke('startRecord');
+        await this.refreshItems()
     }
 
     @action
