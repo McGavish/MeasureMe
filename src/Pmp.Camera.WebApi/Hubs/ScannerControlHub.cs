@@ -56,13 +56,17 @@ namespace Pmp.Camera.WebApi.Hubs
             {
                 this.Camera.PropertyChanged -= this.Camera_PropertyChanged;
             }
-            if (this.UcScannerClient!= null)
+            if (this.UcScannerClient != null)
             {
                 this.UcScannerClient.PropertyChanged -= this.MachineController_PropertyChanged;
             }
         }
     }
-
+    public class UcParameter
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
     public class ScannerControlHub : Hub, IDisposable
     {
         public OiCamera Camera { get; }
@@ -98,9 +102,29 @@ namespace Pmp.Camera.WebApi.Hubs
 
         public async Task<ButtonWithParametersDescription[]> ListUcSettings()
         {
-            this.MachineController.Commands.
+            var commands = this.MachineController.Commands.GetType().GetMethods();
 
+            var result = new List<ButtonWithParametersDescription>();
+
+            foreach (var item in commands)
+            {
+                result.Add(new ButtonWithParametersDescription
+                {
+                    Name = item.Name,
+                    ParameterDescription = item.GetParameters().Select(x => new ParameterDescription() { Name = x.Name }).ToArray()
+                });
+            }
+            return result.ToArray();
         }
+
+        public async Task<string> InvokeUc(string name, UcParameter[] parameters)
+        {
+            var values = parameters.Concat(new[] { new UcParameter { Name = "action", Value = name } }).ToDictionary(x => x.Name, x => x.Value);
+            var command = this.MachineController.Commands.Match(values);
+            var result = this.MachineController.Invoke(command);
+            return result;
+        }
+
         public async Task SetLed(int port, bool value)
         {
             var result = this.MachineController.Invoke(x => x.Set(port, value));

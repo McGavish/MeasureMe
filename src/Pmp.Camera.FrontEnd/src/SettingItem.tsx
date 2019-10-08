@@ -26,3 +26,22 @@ export class SettingItem {
         this.value = v;
     }
 }
+
+export class ButtonWithParameterDescription {
+    public name: string = '';
+    public parameterDescription: ParameterDescription[] = [];
+    client: MachineClient | null = null;
+
+    @action invoke()
+    {
+        if(this.client != null)
+        {
+            this.client.invokeUc(this);
+        }
+    }
+}
+
+export class ParameterDescription {
+    public name: string = '';
+    public value: string = '';
+}

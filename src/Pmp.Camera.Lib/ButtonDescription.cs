@@ -24,7 +24,7 @@ namespace Pmp.Camera.Lib
     public class ButtonWithParametersDescription
     {
         public string Name { get; set; }
-        public string ParameterDescription { get; set; }
+        public ParameterDescription[] ParameterDescription { get; set; }
     }
 
     [TsClass]

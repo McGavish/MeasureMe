@@ -1,9 +1,11 @@
 import * as SignalR from '@aspnet/signalr'
 import { observable, action } from 'mobx'
-import { SettingItem } from "./SettingItem";
+import { SettingItem, ButtonWithParameterDescription } from "./SettingItem";
 
 export class MachineClient {
     client: SignalR.HubConnection;
+    @observable.shallow
+    ucItems: ButtonWithParameterDescription[] = [];
     constructor(public baseUrl: string) {
         this.settingItems = [];
         this.result = "";
@@ -23,7 +25,8 @@ export class MachineClient {
         this.switches = observable.map();
 
         this.client.start().then(async x => {
-            await this.refreshItems();
+            await this.refreshCameraItems();
+            await this.refreshUcItems();
         });
 
         this.client.on('setCameraState', this.setCallback);
@@ -31,7 +34,7 @@ export class MachineClient {
         this.client.on('setLed', this.setLedCallback);
     }
 
-    @action async refreshItems() {
+    @action async refreshCameraItems() {
         const list = await this.client.invoke('listSettings') as SettingItem[];
         action(() => {
             this.settingItems = list.map(x => {
@@ -56,6 +59,19 @@ export class MachineClient {
         })();
     }
 
+    @action async refreshUcItems() {
+        const list = await this.client.invoke('listUcSettings') as ButtonWithParameterDescription[];
+        action(() => {
+            this.ucItems = list.map(x => {
+                const buttonWithParameters = new ButtonWithParameterDescription();
+                buttonWithParameters.client = this;
+                buttonWithParameters.name = x.name;
+                buttonWithParameters.parameterDescription = x.parameterDescription;
+                return buttonWithParameters;
+            })
+        })
+    }
+
     @observable.shallow
     settingItems: SettingItem[];
 
@@ -67,7 +83,7 @@ export class MachineClient {
 
     public async record() {
         await this.client.invoke('startRecord');
-        await this.refreshItems()
+        await this.refreshCameraItems()
     }
 
     @action
@@ -75,6 +91,10 @@ export class MachineClient {
         const result = await this.client.invoke('execute', command);
         this.result = result;
         return result;
+    }
+
+    public async invokeUc(panel: ButtonWithParameterDescription) {
+        await this.client.invoke('invokeUc', panel.name, panel.parameterDescription);
     }
 
     @action

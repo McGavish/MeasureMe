@@ -76,7 +76,17 @@ namespace MisteriousMachine.COM
             return Task.CompletedTask;
         }
 
-        public void InvokeWithoutConfirmation(byte[] bytes)
+        public bool IsNextByteAck()
+        {
+            return this.ReadByte() == ACK;
+        }
+
+        public bool IsNextByteNotNck()
+        {
+            return this.ReadByte() != NACK;
+        }
+
+        public void InvokeWithoutConfirmation(params byte[] bytes)
         {
             this.Serial.Write(bytes, 0, bytes.Length);
         }

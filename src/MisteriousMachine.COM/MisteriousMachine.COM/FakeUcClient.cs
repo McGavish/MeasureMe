@@ -23,6 +23,8 @@ namespace MisteriousMachine.COM
         }
         public SerialPort Serial => throw new NotImplementedException();
 
+        public Commands Commands => new Commands();
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void Dispose()
