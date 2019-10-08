@@ -67,11 +67,11 @@ namespace Pmp.Camera.Lib
             }
             else
             {
-                if ((this.CurrentFrame + 1) != l)
-                {
-                    Console.Error.WriteLine($"Frame misscount, {this.CurrentFrame}, {l}");
-                    this.FuckedUpFrames++;
-                }
+                //if ((this.CurrentFrame + 1) != l)
+                //{
+                //    Console.Error.WriteLine($"Frame misscount, {this.CurrentFrame}, {l}");
+                //    this.FuckedUpFrames++;
+                //}
                 this.CurrentFrame = l;
             }
             return true;

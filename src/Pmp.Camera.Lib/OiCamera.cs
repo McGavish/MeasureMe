@@ -211,7 +211,13 @@ namespace Pmp.Camera.Lib
                     {
                         if (this.udpStreamBlock.Reader.TryRead(out var frame))
                         {
-                            await this.streamToJpegBlock.Continue(frame);
+                            try
+                            {
+                                await this.streamToJpegBlock.Continue(frame);
+                            }
+                            catch (Exception)
+                            {
+                           }
                         }
                     }
                     this.streamToJpegBlock.Dispose();

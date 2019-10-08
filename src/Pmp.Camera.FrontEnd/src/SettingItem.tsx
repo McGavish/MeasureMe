@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 import { MachineClient } from './MachineClient';
 export class SettingItem {
     possibleValues: string[] = [];
@@ -43,5 +43,15 @@ export class ButtonWithParameterDescription {
 
 export class ParameterDescription {
     public name: string = '';
-    public value: string = '';
+    
+    @observable private value: string = '';
+
+    @computed get Value(){
+        return this.value;
+    }
+
+    set Value(v: string)
+    {
+        this.value = v;
+    }
 }

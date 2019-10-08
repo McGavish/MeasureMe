@@ -1,6 +1,6 @@
 import * as SignalR from '@aspnet/signalr'
 import { observable, action } from 'mobx'
-import { SettingItem, ButtonWithParameterDescription } from "./SettingItem";
+import { SettingItem, ButtonWithParameterDescription, ParameterDescription } from "./SettingItem";
 
 export class MachineClient {
     client: SignalR.HubConnection;
@@ -25,8 +25,8 @@ export class MachineClient {
         this.switches = observable.map();
 
         this.client.start().then(async x => {
-            await this.refreshCameraItems();
             await this.refreshUcItems();
+            await this.refreshCameraItems();
         });
 
         this.client.on('setCameraState', this.setCallback);
@@ -66,10 +66,15 @@ export class MachineClient {
                 const buttonWithParameters = new ButtonWithParameterDescription();
                 buttonWithParameters.client = this;
                 buttonWithParameters.name = x.name;
-                buttonWithParameters.parameterDescription = x.parameterDescription;
+                buttonWithParameters.parameterDescription = x.parameterDescription.map(x => {
+                    const r = new ParameterDescription();
+                    r.Value = x.Value;
+                    r.name= x.name;
+                    return r;
+                })
                 return buttonWithParameters;
             })
-        })
+        })();
     }
 
     @observable.shallow
