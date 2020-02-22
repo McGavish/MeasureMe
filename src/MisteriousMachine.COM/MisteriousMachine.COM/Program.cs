@@ -8,18 +8,31 @@ using System.Threading.Tasks;
 
 namespace MisteriousMachine.COM
 {
-    public class BtManager
-    {
-       
-    }
-
     class Program
     {
-        
-
         static async Task Main(string[] args)
         {
-            var com  = UcClient.GetFirstConnected();
+            if (args.Any())
+            {
+                using var sp = new SerialPort(args[0], int.Parse(args[1]), Parity.None, 8, StopBits.One)
+                {
+                    ReadTimeout = 10000
+                };
+                sp.Write("a");
+                try
+                {
+                    var line = sp.ReadLine();
+                    Console.WriteLine($"Received {line}");
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine($"Waited {sp.ReadTimeout} ms and no response...");
+                }
+
+                return;
+            }
+
+            var com = UcClient.GetFirstConnected();
             using (var api = new UcClient(com))
             {
                 var command = new Commands();
